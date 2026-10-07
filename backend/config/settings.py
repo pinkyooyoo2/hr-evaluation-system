@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'users',
     'teams',
     'evaluations',
+    
 ]
 
 MIDDLEWARE = [
@@ -200,3 +201,11 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+CORS_ALLOWED_ORIGINS = [
+"https://hr-evaluation-system2.onrender.com",
+"http://localhost:5173",
+]
+CSRF_TRUSTED_ORIGINS = [
+"https://hr-evaluation-system2.onrender.com"
+]
