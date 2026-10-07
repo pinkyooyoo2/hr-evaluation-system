@@ -13,7 +13,10 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 import os
 from pathlib import Path
 
-import dj_database_url
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +44,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://127.0.0.1:5173',
     'https://localhost:8000',
     'https://127.0.0.1:8000',
+    'https://*.onrender.com',
+    'http://*.onrender.com',
 ]
 if FRONTEND_URL:
     CSRF_TRUSTED_ORIGINS.append(FRONTEND_URL)
@@ -50,6 +55,15 @@ for env_name in ['RENDER_EXTERNAL_URL', 'RENDER_EXTERNAL_HOSTNAME', 'APP_URL']:
     value = os.getenv(env_name)
     if value:
         CSRF_TRUSTED_ORIGINS.append(value.rstrip('/'))
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+
+if not DEBUG:
+    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'None'
+    CSRF_COOKIE_SECURE = True
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -63,6 +77,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'users',
     'teams',
@@ -70,6 +85,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -116,6 +132,8 @@ USE_POSTGRES = bool(DATABASE_URL) or os.getenv('USE_POSTGRES', '0') == '1' or bo
 
 if USE_POSTGRES:
     if DATABASE_URL:
+        if dj_database_url is None:
+            raise ImportError("dj-database-url is required when DATABASE_URL is set.")
         DATABASES = {'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)}
     else:
         DATABASES = {

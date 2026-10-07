@@ -8,4 +8,5 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         result = ensure_demo_hr_data()
-        self.stdout.write(self.style.SUCCESS(f"Demo HR data seeded: {result['team'].name}, manager={result['manager'].username}"))
+        team_names = ', '.join(result.get('teams', {}).keys())
+        self.stdout.write(self.style.SUCCESS(f"Demo HR data seeded: teams={team_names}"))
