@@ -56,7 +56,25 @@ for env_name in ['RENDER_EXTERNAL_URL', 'RENDER_EXTERNAL_HOSTNAME', 'APP_URL']:
     if value:
         CSRF_TRUSTED_ORIGINS.append(value.rstrip('/'))
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://localhost:5173',
+    'https://127.0.0.1:5173',
+    'https://localhost:8000',
+    'https://127.0.0.1:8000',
+    'https://hr-frontend.onrender.com',
+]
+if FRONTEND_URL and FRONTEND_URL not in CORS_ALLOWED_ORIGINS:
+    CORS_ALLOWED_ORIGINS.append(FRONTEND_URL)
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.onrender\.com$",
+    r"^http://.*\.onrender\.com$",
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 if not DEBUG:
