@@ -49,14 +49,11 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'http://*.onrender.com',
 ]
-if FRONTEND_URL:
-    CSRF_TRUSTED_ORIGINS.append(FRONTEND_URL)
+    CSRF_TRUSTED_ORIGINS = [
+    'https://hr-backend-1toc.onrender.com',
+    'https://hr-evaluation-system2.onrender.com',
+]
 
-# Add Render / external deployment origins if present
-for env_name in ['RENDER_EXTERNAL_URL', 'RENDER_EXTERNAL_HOSTNAME', 'APP_URL']:
-    value = os.getenv(env_name)
-    if value:
-        CSRF_TRUSTED_ORIGINS.append(value.rstrip('/'))
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
