@@ -49,7 +49,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'http://*.onrender.com',
 ]
-    CSRF_TRUSTED_ORIGINS = [
+CSRF_TRUSTED_ORIGINS = [
     'https://hr-backend-1toc.onrender.com',
     'https://hr-evaluation-system2.onrender.com',
 ]
