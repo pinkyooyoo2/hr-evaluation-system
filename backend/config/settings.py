@@ -44,6 +44,8 @@ CSRF_TRUSTED_ORIGINS = [
     'https://127.0.0.1:5173',
     'https://localhost:8000',
     'https://127.0.0.1:8000',
+    'https://hr-evaluation-system2.onrender.com',
+    'https://hr-frontend.onrender.com',
     'https://*.onrender.com',
     'http://*.onrender.com',
 ]
@@ -65,6 +67,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://127.0.0.1:5173',
     'https://localhost:8000',
     'https://127.0.0.1:8000',
+    'https://hr-evaluation-system2.onrender.com',
     'https://hr-frontend.onrender.com',
 ]
 if FRONTEND_URL and FRONTEND_URL not in CORS_ALLOWED_ORIGINS:
@@ -118,7 +121,7 @@ ROOT_URLCONF = 'config.urls'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
+        'config.authentication.CsrfExemptSessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -219,11 +222,4 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
-
-CORS_ALLOWED_ORIGINS = [
-"https://hr-evaluation-system2.onrender.com",
-"http://localhost:5173",
-]
-CSRF_TRUSTED_ORIGINS = [
-"https://hr-evaluation-system2.onrender.com"
-]
+
